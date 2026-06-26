@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quiz</title>
+  <title>Das Finn-Quiz</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
 
@@ -117,7 +117,10 @@
       line-height: 1.4;
       margin-bottom: 32px;
     }
-
+    .header 
+    {
+      font-size:7rex;
+    }
     /* ── Answers ── */
     .answers { display: flex; flex-direction: column; gap: 12px; }
 
@@ -188,6 +191,13 @@
     .next-btn:hover { filter: brightness(1.1); }
     .next-btn:active { transform: scale(.98); }
 
+
+    /*.start { text-align: center; display: none; }*/
+    .start.show { display: block; }
+    .start-icon  { font-size: 64px; margin-bottom: 16px; }
+    .start-title { font-size: 28px; font-weight: 900; margin-bottom: 10px; }
+    .start-sub   { color: var(--muted); font-size: 15px; margin-bottom: 32px; }
+
     /* ── Result ── */
     .result { text-align: center; display: none; }
     .result.show { display: block; }
@@ -211,6 +221,14 @@
     }
     .restart-btn:hover { background: rgba(108,99,255,.12); }
 
+    .start-btn {
+     padding: 16px 40px; background: transparent; color: var(--accent);
+      border: 2px solid var(--accent); border-radius: var(--radius);
+      font-family: inherit; font-size: 30px; font-weight: 700;
+      cursor: pointer; transition: background .15s;
+    }
+    .start-btn:hover { background: rgba(108,99,255,.12); }
+
     @media (max-width: 480px) {
       .card { padding: 28px 20px; }
       .question-text { font-size: 18px; }
@@ -218,13 +236,21 @@
   </style>
 </head>
 <body>
+<div> <h1 class= "header" id="header">Finn Quiz</h1>  
+<pre>  
+  
 
+</pre>
+</div>
+
+<div class ="start" id="start"> <button class="start-btn" id="start-btn" onclick="restart()"> Start </button></div>
+    
 <div class="lang-bar">
   <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
   <button class="lang-btn" id="btn-de" onclick="setLang('de')">DE</button>
 </div>
 
-<div class="progress-wrap">
+<div class="progress-wrap" id="progress">
   <div class="progress-meta">
     <span id="q-label"></span>
     <span id="score-live"></span>
@@ -234,7 +260,7 @@
   </div>
 </div>
 
-<div class="card">
+<div class="card" id="card">
   <div id="quiz-screen">
     <div class="question-label" id="q-counter"></div>
     <div class="question-text" id="q-text"></div>
@@ -257,6 +283,15 @@
   // ─────────────────────────────────────────────────────────────
   //  TRANSLATIONS
   // ─────────────────────────────────────────────────────────────
+  document.getElementById('quiz-screen').style.display = 'none';
+  document.getElementById('card').style.display = 'none';
+  document.getElementById('progress').style.display = 'none';
+
+
+
+
+
+
   const i18n = {
     en: {
       questionOf:   (i, t) => 'Question ' + i + ' of ' + t,
@@ -268,10 +303,12 @@
       wrong:        (exp) => '✗ Wrong. ' + exp,
       resultSub:    (s,t) => 'You answered ' + s + ' out of ' + t + ' questions correctly.',
       restart:            'Play Again',
+      start:  'Start',
+      header:           'The Finn Quiz',
       results: {
-        perfect:  { title: 'Perfect!',       quote: 'You\'re a real Finn expert—absolutely flawless! Maybe you\'re even Finn himself!??' },
+        perfect:  { title: 'Perfect!',       quote: 'You\'re a real Finn expert — absolutely flawless! Maybe you\'re even Finn himself!??' },
         great:    { title: 'Well done!',      quote: 'Great job! With a little more Finn stalking, it\'ll get even better.' },
-        okay:     { title: 'Not bad!',        quote: 'You already know quite a bit—but there\'s still room for improvement. Get even more out of Finn.' },
+        okay:     { title: 'Not bad!',        quote: 'You already know quite a bit—  but there\'s still room for improvement. Get even more out of Finn.' },
         poor:     { title: 'Keep practising!',quote: 'You can do even better than that! Grab a listening device and hang out at Finn\'s window.' }
       }
     },
@@ -285,6 +322,8 @@
       wrong:        (exp) => '✗ Falsch. ' + exp,
       resultSub:    (s,t) => 'Du hast ' + s + ' von ' + t + ' Fragen richtig beantwortet.',
       restart:            'Nochmal spielen',
+      start:  'Start',
+      header:           'Das Finn-Quiz',
       results: {
         perfect:  { title: 'Perfekt!',        quote: 'Du bist ein wahrer Finn-Experte – absolut makellos! Vieleicht bist du ja sogar Finn persönlich!??' },
         great:    { title: 'Gut gemacht!',    quote: 'Starke Leistung! Mit ein bisschen mehr Finn Stalking wird das noch besser.' },
@@ -307,6 +346,56 @@
         explanation: 'Finn\'s family tree shows a connection to famous inventor Luigi Gianjogologocomolo'
       },
       {
+        text: 'What is the biggest muscle in Finn\'s body?',
+        answers: ['Forearms', 'Biceps', 'Gluteos Maximus', 'Abs'],
+        correct: 0,
+        explanation: 'They are indeed bigger then his biceps, that is why one could confuse him with Popeye'
+      },
+      {
+        text: 'Which is a common free time activity of Finn?',
+        answers: ['Watching movies', 'Reading', '*Not* Gambling', 'Playing video games'],
+        correct: 3,
+        explanation: 'Finn always finds his time for one session of flight simulator'
+      },
+      {
+        text: 'What is Finn\'s favorite drink?',
+        answers: ['Water', 'Liquid uranium', 'Apple juice', 'Libella Cola', 'Almdudler'],
+        correct: 3,
+        explanation: 'I heard it\'s the GDOAT'
+      },
+       {
+        text: 'What is Finn\'s prefered means of transportation?',
+        answers: ['By foot', 'By train', 'Teleporting'],
+        correct: 1,
+        explanation: 'Teleporting would be faster though...'
+      },
+
+      {
+        text: 'With what game engine is Finn aquainted?',
+        answers: ['Unreal Engine', 'Godot', 'Unity', 'Game maker'],
+        correct: 1,
+        explanation: 'Finn has deep knowledge in Godot, due to his father beeing a contributor'
+      },
+      
+      {
+        text: 'Which sport does Finn regulary engage in?',
+        answers: ['Shark hunting','Rope skipping', 'Wrestling','Eastern Kazakh cone throwing', 'Rowing', 'Bouldering'],
+        correct: 5,
+        explanation: 'This guy is almost as agile as an ape'
+      },
+      {
+        text: 'What body part is Finn\'s favorite?',
+        answers: ['Arms','Legs', 'Feet', 'Nose', 'Thumbs'],
+        correct: 2,
+        explanation: 'Finn enjoys good feet (allegedly)'
+      },
+      {
+        text: 'What Animal resembles Finn the most?',
+        answers: ['Bear', 'Border Collie', 'Fish', 'Worm'],
+        correct: 1,
+        explanation: 'He does look like that!'
+      },
+      {
         text: 'How many children does Finn have?',
         answers: ['0', '1', '2', 'More than 10'],
         correct: 0,
@@ -318,24 +407,80 @@
         explanation: 'I know where you live'
       },
       {
-        text: 'Which plant sounds similar to Finn\'s GF?',
-        answers: [ 'Bread','Vanilla', 'Lavender', 'Orchid'],
-        correct: 1,
+        text: 'Which plant sounds similar to an important person in Finn\'s live?',
+        answers: [ 'Bread', 'Lavender', 'Orchid','Vanilla'],
+        correct: 3,
         explanation: 'No explanation'
       },
       {
         text: 'Why is Finn so cute?',
-        answers: ['He\'s not', 'disposition', 'That is unknown', 'He learned it in elementary school', 'He imitates puppies'],
+        answers: ['He\'s not', 'Disposition', 'That is unknown', 'He learned it in elementary school', 'He imitates puppies'],
         correct: 2,
         explanation: 'No one really knows where he got his inexplicable charm'
+      },
+       {
+        text: 'Do you enjoy this quiz and also like Finn?',
+        answers: ['Maybe','Yes','Yes, but I don\'t want to admit it'],
+        correct: 1,
+        explanation: 'Correct!'
       }
     ],
     de: [
       {
-        text: 'Was ist Finn\'s Nachname?',
+        text: 'Was lautet Finn\'s Nachname?',
         answers: ['Gianjogologocomolo', 'Sperle', 'Binchiling', 'Frankfurt'],
         correct: 0,
         explanation: 'Finns Stammbaum zeigt eine Verbindung zu dem berühmten Erfinder Luigi Gianjogologocomolo'
+      },
+      {
+        text: 'Welcher ist der größte Muskel in Finn\'s Körper?',
+        answers: ['Unterarme', 'Bizeps', 'Gluteos Maximus', 'Bauchmuskeln'],
+        correct: 0,
+        explanation: 'Sie sind in der Tat größer als sein Bizeps, deshalb könnte man ihn mit Popeye verwechseln'
+      },
+       {
+        text: 'Was ist eine häufige Freizeitaktivität von Finn?',
+        answers: ['Filme schauen', 'Lesen', '*Nicht* Glücksspiel', 'Videospiele zocken'],
+        correct: 3,
+        explanation: 'Er findet immer Zeit für eine Runde Flugsimulator'
+      },
+      {
+        text: 'Was ist Finn\'s Lieblings-Getränk?',
+        answers: ['Wasser', 'Flüssiges Uran', 'Apfelsaft', 'Libella Cola', 'Almdudler'],
+        correct: 3,
+        explanation: 'Ich habe gehört es ist das GGOAT'
+      },
+       {
+        text: 'Welches Transportations Mittel zieht Finn vor?',
+        answers: ['Gehen', 'Züge', 'Teleportieren'],
+        correct: 1,
+        explanation: 'Teleportieren wäre schneller...'
+      },
+
+      {
+        text: 'Mit welcher Game-Engine ist Finn vertraut?',
+        answers: ['Unreal Engine', 'Godot', 'Unity', 'Game maker'],
+        correct: 1,
+        explanation: 'Finn hat ein tiefgreifendes Wissen in Godot, da sein Vater ein contributor ist'
+      },
+      
+      {
+        text: ' Welche Sportart betreibt Finn regelmäßig?',
+        answers: ['Hai-Jagd','Seilspringen', 'Ringen','Ostkasachisches Kegelwerfen', 'Rudern', 'Bouldern'],
+        correct: 5,
+        explanation: 'Dieser Typ ist fast so agil wie ein Affe'
+      },
+      {
+        text: 'Was ist Finn\'s Lieblings-Körperteil?',
+        answers: ['Arme','Beine', 'Füße', 'Nase', 'Daumen'],
+        correct: 2,
+        explanation: 'Finn genießt ein Paar guter Füße (angeblich)'
+      },
+      {
+        text: 'Welches Tier ähnelt Finn am meisten?',
+        answers: ['Bär', 'Border Collie', 'Fisch', 'Wurm'],
+        correct: 1,
+        explanation: 'Er sieht wirklich so aus!'
       },
       {
         text: 'Wie viele Kinder hat Finn?',
@@ -344,21 +489,27 @@
         explanation: 'Finn wird sicher irgendwann eine nette Familie haben, aber momentan ist er kinderlos'
       },
       { text: 'Wo wohnt Finn?',
-        answers: ['Duisburg', 'Wasserburger Landstraße 81b', 'Südsudan', 'Lochness'],
+        answers: ['Duisburg', 'Wasserburger Landstraße 81b', 'Südsudan', 'Günderodestraße 19c', 'Lochness'],
         correct: 1,
         explanation: 'Ich weiß wo du wohnst'
       },
       {
-        text: 'Welche Pflanze hört sich ähnlich an wie Finn\'s GF?',
-        answers: ['Brot', 'Vanille', 'Lavendel', 'Orchidee'],
-        correct: 1,
+        text: 'Welche Pflanze hört sich ähnlich an wie ein wichtiger Mensch in Finn\'s Leben?',
+        answers: ['Brot',  'Lavendel', 'Orchidee','Vanille'],
+        correct: 3,
         explanation: 'Keine Erklärung'
       },
       {
-        text: 'Warum ist Finn so süss?',
+        text: 'Warum ist Finn so süß?',
         answers: ['Ist er nicht', 'Veranlagung', 'Das ist unbekannt', 'In der Grundschule erlernt', 'Er imitiert Hundewelpen'],
         correct: 2,
         explanation: 'Niemand weiß wirklich woher er seinen unerklärlichen Charm hat'
+      },
+       {
+        text: 'Gefällt dir dieses Quiz und magst du Finn?',
+        answers: ['Vieleicht','Ja','Ja, aber ich will es nicht zugeben'],
+        correct: 1,
+        explanation: 'Richtig!'
       }
     ]
   };
@@ -396,6 +547,8 @@
     }
     // update live score label
     document.getElementById('score-live').textContent = i18n[lang].points(score);
+    document.getElementById('header').textContent  = i18n[lang].header;
+
   }
 
   // ─────────────────────────────────────────────────────────────
@@ -449,6 +602,9 @@
     document.getElementById('feedback').textContent = '';
     document.getElementById('next-btn').className = 'next-btn';
     document.getElementById('score-live').textContent = i18n[lang].points(score);
+    document.getElementById('header').textContent  = i18n[lang].header;
+
+
     renderQuestion(index);
   }
 
@@ -520,6 +676,7 @@
     document.getElementById('score-badge').textContent  = score + ' / ' + total;
     document.getElementById('result-quote').textContent = t.results[bucket].quote;
     document.getElementById('restart-btn').textContent  = t.restart;
+    //document.getElementById('start-btn').textContent  = t.start;
     document.getElementById('result-screen').className  = 'result show';
   }
 
@@ -527,6 +684,10 @@
     current = 0; score = 0; inResult = false;
     document.getElementById('result-screen').className = 'result';
     document.getElementById('quiz-screen').style.display = 'block';
+   document.getElementById('start').style.display = 'none';
+
+  document.getElementById('card').style.display = 'block';
+  document.getElementById('progress').style.display = 'block';
     load(0);
   }
 
