@@ -16,7 +16,7 @@
   --text:    #2b2118;
   --muted:   #a38b78;
   --accent:  #ff7a1a;
-  --correct: #2fb872;
+  --correct: #1db667;
   --wrong:   #e5484d;
   --radius:  14px;
 }
@@ -217,7 +217,7 @@
   </style>
 </head>
 <body>
-<div> <h1 class= "header" id="header">Finn Quiz</h1>  
+<div> <h1 class= "header" id="header">Rico Quiz</h1>  
 <pre>  
   
 
@@ -282,10 +282,10 @@
     start:  'Start',
     header:           'Das Rico-Quiz',
     results: {
-      perfect:  { title: 'Perfekt!',        quote: 'Du bist ein wahrer RicExperte  Vieleicht bist du ja sogar Rico persönlich!?? Aber leider warst du schon der 101ste Teilnehmer und hast nichts gewonnen.' },
-      great:    { title: 'Gut gemacht!',    quote: 'Starke Leistung! Mit ein bisschen mehr Rico Stalking wird das noch besser.' },
-      okay:     { title: 'Nicht schlecht!', quote: 'Du weißt schon einiges – aber da ist noch Luft nach oben. Quetsche Finn noch mehr aus.' },
-      poor:     { title: 'Weiter üben!',    quote: 'Du kannst das noch viel besser! Schnapp dir ein Abhörgerät und lungere vor Finn\'s Fenster' }
+      perfect:  { title: 'Perfekt!',        quote: 'Du bist ein wahrer RicExperte  Vieleicht bist du ja sogar Rico persönlich!?? Aber leider warst du schon der 101ste Teilnehmer und bist nicht der große Gewinner. Würde mir stinken.' },
+      great:    { title: 'Gut gemacht!',    quote: 'Starke Leistung! Mit mehr Rico Stalking dann noch besser. Aber leider warst du erst der 99ste Teilnehmer und bist nicht der große Gewinner. Würde mir stinken.' },
+      okay:     { title: 'Nicht schlecht!', quote: 'Du weißt einiges aber da ist noch Luft nach oben. Leider warst du erst der 69ste Teilnehmer und bist nicht der große Gewinner. Würde mir stinken.' },
+      poor:     { title: 'Weiter üben!',    quote: 'Du kannst das noch viel besser! Lungere mit Abhörgerät vor Rico\'s Fenster! Leider warst du erst der 11te Teilnehmer und bist nicht der große Gewinner. Würde mir stinken.' }
     }
   };
 
@@ -303,12 +303,26 @@
         correct: 4,
         explanation: 'Rico ist gerne Vögel. Vieleicht hat er einen?'
       },
+        {
+        text: 'Ist Rico mit Finn Giangacomo verwandt?',
+        image: 'Images/Saarland.jpeg',
+        answers: ['JA, sein Bruder', 'Nein', 'Womöglich', 'JA, sein Cousin 3ten Grades'],
+        correct: 2,
+        explanation: 'JA das Saarland ist ein schönes Bundesland, fast so schön wie Alabama'
+      },
        {
         text: 'Was ist Rico\'s Lieblings-Getränk?',
         image: '',
         answers: ['Wasser', 'Flüssiges Uran', 'Mango-Lassie', 'Kirschsaft', 'Spezieege'],
         correct: 2,
         explanation: 'Eigentlich habe ich ihn das erst einmal trinken sehen...'
+      },
+       {
+        text: 'Wer lebt mit Rico in seinem Haus?',
+        image: 'Images/ImHaus.jpeg',
+        answers: ['Seine Schwester',  'Sein Onkel', 'Sein Vater','Deine Mutter'],
+        correct: 0,
+        explanation: 'Keine Erklärung'
       },
       {
         text: 'Hat Rico ein Springseil?',
@@ -326,82 +340,89 @@
       },
      
        {
-        text: 'Welches Transportations Mittel zieht Finn vor?',
-        image: '',
-        answers: ['Gehen', 'Züge', 'Teleportieren'],
-        correct: 1,
-        explanation: 'Teleportieren wäre schneller...'
+        text: 'Welches Farbe des Farbspektrums zieht Rico vor?',
+        image: 'Images/Orange.jpeg',
+        answers: ['Blau', 'Grün', 'Gelb','Orange'],
+        correct: 3,
+        explanation: 'Das ist die Farbe des Feuers'
       },
-
+        { text: 'Wie mag Rico sein Essen?',
+        image: 'Images/Essen.jpg',
+        answers: ['Bitter','mit Garnelen', 'Scharf', 'Süß', 'dick mit Käse belegt', 'Lochness'],
+        correct: 2,
+        explanation: '20000 Chilischoten sind noch zu mild'
+      },
       {
-        text: 'Mit welcher Game-Engine ist Finn vertraut?',
-        image: '',
-        answers: ['Unreal Engine', 'Godot', 'Unity', 'Game maker'],
+        text: 'Mit welcher Game-Engine ist Rico vertraut?',
+        image: 'Images/coding.jpg',
+        answers: ['Unreal Engine', 'Scratch', 'Unity', 'Game maker'],
         correct: 1,
-        explanation: 'Finn hat ein tiefgreifendes Wissen in Godot, da sein Vater ein contributor ist'
+        explanation: 'Rico hat seit seinen Kindheitstagen in Scratch programmiert. So ein fleißiger Junge'
       },
       
       {
         text: ' Welche Sportart betreibt Rico regelmäßig?',
-        image: '',
+        image: 'Images/Football.jpg',
         answers: ['Büffel-Jagd','Fußball', 'Football','Seilspringen', 'American-Football', 'Soccer','Niederländisches Lederhosen-Weitspringen', 'Rugby',],
-        correct: 5,
+        correct: 4,
         explanation: 'Rico ist fast so hart wie ein Felsen, und so schnell wie ein Rotbraunmanguale'
       },
       {
         text: 'Was ist Freaco\'s Lieblings-Körperteil?',
-        image: '',
+        image: 'Images/gesicht.jpg',
         answers: ['Arme','Beine', 'Füße', 'Nase', 'Daumen'],
         correct: 2,
         explanation: 'Rico genießt ein Paar guter Füße (angeblich)'
       },
-      {
-        text: 'Welches Tier ähnelt Finn am meisten?',
-        image: '',
-        answers: ['Bär', 'Border Collie', 'Fisch', 'Wurm'],
+       {
+        text: 'War Rico mal in Timbuktu?',
+        image: 'Images/Timbuktu.jpeg',
+        answers: ['Nein', 'Nein, aber er will nach Kazakhstan', 'Ja', 'Nur Dienstags um 4', 'Nein, aber schon im Südsudan'],
         correct: 1,
-        explanation: 'Er sieht wirklich so aus!'
+        explanation: 'Jeder Man verspürt im Leben einmal den Drang nach Kazakhstan zu reisen'
       },
       {
-        text: 'Wie viele Kinder hat Finn?',
-        image: '',
-        answers: ['0', '1', '2', 'Mehr als 10'],
-        correct: 0,
-        explanation: 'Finn wird sicher irgendwann eine nette Familie haben, aber momentan ist er kinderlos'
-      },
-      { text: 'Wo wohnt Finn?',
-        image: '',
-        answers: ['Duisburg', 'Schönwehrtstraße 56', 'Südsudan', 'Günderode-Straße 19c', 'Lochness','Görtzer-Straße 9'],
-        correct: 1,
-        explanation: 'Ich weiß wo du wohnst'
-      },
-      {
-        text: 'Welche Pflanze hört sich ähnlich an wie ein wichtiger Mensch in Finn\'s Leben?',
-        image: '',
-        answers: ['Brot',  'Lavendel', 'Orchidee','Vanille'],
+        text: 'Wann geht Rico ins Bett?',
+        image: 'Images/Uhr.png',
+        answers: ['Vor 20Uhr', 'Um 21 Uhr', 'Um 23 Uhr', 'Nach 3 Uhr'],
         correct: 3,
-        explanation: 'Keine Erklärung'
+        explanation: 'Ok ich gebe zu, dass ist etwas übertrieben'
       },
       {
-        text: 'Warum ist Finn so süß?',
+        text: 'Was ist Ricos Lieblings-Kohlehydratquelle?',
         image: '',
-        answers: ['Ist er nicht', 'Veranlagung', 'Das ist unbekannt', 'In der Grundschule erlernt', 'Er imitiert Hundewelpen'],
+        answers: ['Reis', 'Nudeln', 'Steinsalz', 'Kartoffeln'],
+        correct: 1,
+        explanation: 'Nudeln, egal ob Pasta, Lasagne(ist das nicht auch Pasta?) oder Auflauf'
+      },
+      {
+        text: 'Rico ist ein radikaler...',
+        image: 'Images/Japse.jpeg',
+        answers: ['Gewaltbereiter Veganist','Regenbogen-Jihadist', 'Kommunistischer Kapitalist', 'Panafrikanischer Nationalist'],
         correct: 2,
-        explanation: 'Niemand weiß wirklich woher er seinen unerklärlichen Charm hat'
+        explanation: 'Ich höre schon die Stimmen, sie werden lauter,., a a ahh'
+      },
+    
+      {
+        text: 'Wo wächst der Pfeffer und warum soll Rico dorthin gehen??',
+        image: 'Images/Pfeffer.jpeg',
+        answers: ['Indien, weil Butterchicken', 'Kazakhstan, weil UOUOUUOuO', 'Alabama, weil Sweet Home'],
+        correct: 0,
+        explanation: 'Jaja, der Pfeffer kommt aus Indien.(Ehrlich gesagt hat diese Frage gar nichts mit Rico zu tun)'
       },
        {
-        text: 'Gefällt dir dieses Quiz und magst du Finn?',
-        image: '',
-        answers: ['Vieleicht','Ja','Ja, aber ich will es nicht zugeben'],
-        correct: 1,
-        explanation: 'Richtig!'
+        text: 'Magst du Rico und willst einen extrem hohen Gewinn?',
+        image: 'Images/WantU.png',
+        answers: ['Vieleicht','Ja, aber ich will nicht gierig wirken','Nein','Ja'],
+        correct: 3,
+        explanation: 'Mal schauen der wie vielste du warst'
       }
     ];
 
   // ─────────────────────────────────────────────────────────────
   //  STATE
   // ─────────────────────────────────────────────────────────────
-  const KEYS = ['A','B','C','D','E','F'];
+  const KEYS = ['A','B','C','D','E','F','G','H','I'];
   let current  = 0;
   let score    = 0;
   let answered = false;
@@ -529,7 +550,7 @@
     const pct   = Math.round((score / total) * 100);
 
     let icon, bucket;
-    if (pct === 100)     { icon = '🏆'; bucket = 'perfect'; }
+    if (pct >= 91)     { icon = '🏆'; bucket = 'perfect'; }
     else if (pct >= 67)  { icon = '🎉'; bucket = 'great';   }
     else if (pct >= 34)  { icon = '🤔'; bucket = 'okay';    }
     else                 { icon = '📚'; bucket = 'poor';     }
