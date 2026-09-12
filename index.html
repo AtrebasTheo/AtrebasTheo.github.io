@@ -1,25 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Das Finn-Quiz</title>
+  <title>Das Rico-Quiz</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    :root {
-      --bg:      #0f1117;
-      --surface: #1a1d27;
-      --border:  #2a2e3f;
-      --text:    #e8eaf0;
-      --muted:   #7880a0;
-      --accent:  #6c63ff;
-      --correct: #22c97a;
-      --wrong:   #f04a6a;
-      --radius:  14px;
-    }
+   :root {
+  --bg:      #fdf6f0;
+  --surface: #ffffff;
+  --border:  #f0ddc8;
+  --text:    #2b2118;
+  --muted:   #a38b78;
+  --accent:  #ff7a1a;
+  --correct: #2fb872;
+  --wrong:   #e5484d;
+  --radius:  14px;
+}
 
     body {
       font-family: 'Inter', sans-serif;
@@ -31,37 +31,6 @@
       align-items: center;
       justify-content: center;
       padding: 24px;
-    }
-
-    /* ── Lang switcher ── */
-    .lang-bar {
-      width: 100%;
-      max-width: 640px;
-      display: flex;
-      justify-content: flex-end;
-      gap: 8px;
-      margin-bottom: 16px;
-    }
-    .lang-btn {
-      background: var(--surface);
-      border: 1.5px solid var(--border);
-      color: var(--muted);
-      font-family: inherit;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: .06em;
-      padding: 6px 14px;
-      border-radius: 99px;
-      cursor: pointer;
-      transition: border-color .15s, color .15s;
-    }
-    .lang-btn.active {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-    .lang-btn:hover:not(.active) {
-      border-color: var(--muted);
-      color: var(--text);
     }
 
     /* ── Progress bar ── */
@@ -121,6 +90,18 @@
     {
       font-size:7rex;
     }
+    /* ── Question image ── */
+    .question-image {
+      width: 100%;
+      max-height: 320px;
+      object-fit: cover;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      margin-bottom: 24px;
+      display: none;
+    }
+    .question-image.show { display: block; }
+
     /* ── Answers ── */
     .answers { display: flex; flex-direction: column; gap: 12px; }
 
@@ -142,7 +123,7 @@
       position: relative;
       overflow: hidden;
     }
-    .answer-btn:hover:not(:disabled) { border-color: var(--accent); background: #1f2236; }
+    .answer-btn:hover:not(:disabled) { border-color: var(--accent); background: #ebd34a; }
     .answer-btn:active:not(:disabled) { transform: scale(.98); }
 
     .answer-key {
@@ -219,7 +200,7 @@
       font-family: inherit; font-size: 15px; font-weight: 700;
       cursor: pointer; transition: background .15s;
     }
-    .restart-btn:hover { background: rgba(108,99,255,.12); }
+    .restart-btn:hover { background: rgba(230, 155, 56, 0.12); }
 
     .start-btn {
      padding: 16px 40px; background: transparent; color: var(--accent);
@@ -227,7 +208,7 @@
       font-family: inherit; font-size: 30px; font-weight: 700;
       cursor: pointer; transition: background .15s;
     }
-    .start-btn:hover { background: rgba(108,99,255,.12); }
+    .start-btn:hover { background: rgba(230, 155, 56, 0.12); }
 
     @media (max-width: 480px) {
       .card { padding: 28px 20px; }
@@ -244,11 +225,6 @@
 </div>
 
 <div class ="start" id="start"> <button class="start-btn" id="start-btn" onclick="restart()"> Start </button></div>
-    
-<div class="lang-bar">
-  <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
-  <button class="lang-btn" id="btn-de" onclick="setLang('de')">DE</button>
-</div>
 
 <div class="progress-wrap" id="progress">
   <div class="progress-meta">
@@ -264,6 +240,7 @@
   <div id="quiz-screen">
     <div class="question-label" id="q-counter"></div>
     <div class="question-text" id="q-text"></div>
+    <img class="question-image" id="q-image" src="" alt="" />
     <div class="answers" id="answers"></div>
     <div class="feedback" id="feedback"></div>
     <button class="next-btn" id="next-btn"></button>
@@ -293,165 +270,64 @@
 
 
   const i18n = {
-    en: {
-      questionOf:   (i, t) => 'Question ' + i + ' of ' + t,
-      questionLabel:(i)    => 'Question ' + i,
-      points:       (n)    => n + ' Point' + (n !== 1 ? 's' : ''),
-      next:               'Next →',
-      showResult:         'Show Result',
-      correct:      (exp) => '✓ Correct! ' + exp,
-      wrong:        (exp) => '✗ Wrong. ' + exp,
-      resultSub:    (s,t) => 'You answered ' + s + ' out of ' + t + ' questions correctly.',
-      restart:            'Play Again',
-      start:  'Start',
-      header:           'The Finn Quiz',
-      results: {
-        perfect:  { title: 'Perfect!',       quote: 'You\'re a real Finn expert — absolutely flawless! Maybe you\'re even Finn himself!??' },
-        great:    { title: 'Well done!',      quote: 'Great job! With a little more Finn stalking, it\'ll get even better.' },
-        okay:     { title: 'Not bad!',        quote: 'You already know quite a bit—  but there\'s still room for improvement. Get even more out of Finn.' },
-        poor:     { title: 'Keep practising!',quote: 'You can do even better than that! Grab a listening device and hang out at Finn\'s window.' }
-      }
-    },
-    de: {
-      questionOf:   (i, t) => 'Frage ' + i + ' von ' + t,
-      questionLabel:(i)    => 'Frage ' + i,
-      points:       (n)    => n + ' Punkt' + (n !== 1 ? 'e' : ''),
-      next:               'Weiter →',
-      showResult:         'Ergebnis anzeigen',
-      correct:      (exp) => '✓ Richtig! ' + exp,
-      wrong:        (exp) => '✗ Falsch. ' + exp,
-      resultSub:    (s,t) => 'Du hast ' + s + ' von ' + t + ' Fragen richtig beantwortet.',
-      restart:            'Nochmal spielen',
-      start:  'Start',
-      header:           'Das Finn-Quiz',
-      results: {
-        perfect:  { title: 'Perfekt!',        quote: 'Du bist ein wahrer Finn-Experte – absolut makellos! Vieleicht bist du ja sogar Finn persönlich!??' },
-        great:    { title: 'Gut gemacht!',    quote: 'Starke Leistung! Mit ein bisschen mehr Finn Stalking wird das noch besser.' },
-        okay:     { title: 'Nicht schlecht!', quote: 'Du weißt schon einiges – aber da ist noch Luft nach oben. Quetsche Finn noch mehr aus.' },
-        poor:     { title: 'Weiter üben!',    quote: 'Du kannst das noch viel besser! Schnapp dir ein Abhörgerät und lungere vor Finn\'s Fenster' }
-      }
+    questionOf:   (i, t) => 'Frage ' + i + ' von ' + t,
+    questionLabel:(i)    => 'Frage ' + i,
+    points:       (n)    => n + ' Punkt' + (n !== 1 ? 'e' : ''),
+    next:               'Weiter →',
+    showResult:         'Ergebnis anzeigen',
+    correct:      (exp) => '✓ Richtig! ' + exp,
+    wrong:        (exp) => '✗ Falsch. ' + exp,
+    resultSub:    (s,t) => 'Du hast ' + s + ' von ' + t + ' Fragen richtig beantwortet.',
+    restart:            'Nochmal spielen',
+    start:  'Start',
+    header:           'Das Rico-Quiz',
+    results: {
+      perfect:  { title: 'Perfekt!',        quote: 'Du bist ein wahrer RicExperte  Vieleicht bist du ja sogar Rico persönlich!?? Aber leider warst du schon der 101ste Teilnehmer und hast nichts gewonnen.' },
+      great:    { title: 'Gut gemacht!',    quote: 'Starke Leistung! Mit ein bisschen mehr Rico Stalking wird das noch besser.' },
+      okay:     { title: 'Nicht schlecht!', quote: 'Du weißt schon einiges – aber da ist noch Luft nach oben. Quetsche Finn noch mehr aus.' },
+      poor:     { title: 'Weiter üben!',    quote: 'Du kannst das noch viel besser! Schnapp dir ein Abhörgerät und lungere vor Finn\'s Fenster' }
     }
   };
 
   // ─────────────────────────────────────────────────────────────
   //  QUESTIONS  (add/edit here)
   //  correct: zero-based index of the right answer
+  //  image:   optional path to a photo for this question, e.g. 'images/frage1.jpg'
+  //           leave as '' if you don't want an image for that question
   // ─────────────────────────────────────────────────────────────
-  const questions = {
-    en: [
+  const questions = [
       {
-        text: 'What is Finn\'s last name?',
-        answers: ['Gianjogologocomolo', 'Sperle', 'Binchiling', 'Frankfurt'],
-        correct: 0,
-        explanation: 'Finn\'s family tree shows a connection to famous inventor Luigi Gianjogologocomolo'
-      },
-      {
-        text: 'What is the biggest muscle in Finn\'s body?',
-        answers: ['Forearms', 'Biceps', 'Gluteos Maximus', 'Abs'],
-        correct: 0,
-        explanation: 'They are indeed bigger then his biceps, that is why one could confuse him with Popeye'
-      },
-      {
-        text: 'Which is a common free time activity of Finn?',
-        answers: ['Watching movies', 'Reading', '*Not* Gambling', 'Playing video games'],
-        correct: 3,
-        explanation: 'Finn always finds his time for one session of flight simulator'
-      },
-      {
-        text: 'What is Finn\'s favorite drink?',
-        answers: ['Water', 'Liquid uranium', 'Apple juice', 'Libella Cola', 'Almdudler'],
-        correct: 3,
-        explanation: 'I heard it\'s the GDOAT'
+        text: 'Wie lautet Rico\'s Nachname?',
+        image: 'Images/Buchfink.jpg',
+        answers: [ 'Binchiling', 'Buchling','Buchfink','Sperlium', 'Sperle','Sperber'],
+        correct: 4,
+        explanation: 'Rico ist gerne Vögel. Vieleicht hat er einen?'
       },
        {
-        text: 'What is Finn\'s prefered means of transportation?',
-        answers: ['By foot', 'By train', 'Teleporting'],
-        correct: 1,
-        explanation: 'Teleporting would be faster though...'
-      },
-
-      {
-        text: 'With what game engine is Finn aquainted?',
-        answers: ['Unreal Engine', 'Godot', 'Unity', 'Game maker'],
-        correct: 1,
-        explanation: 'Finn has deep knowledge in Godot, due to his father beeing a contributor'
-      },
-      
-      {
-        text: 'Which sport does Finn regulary engage in?',
-        answers: ['Shark hunting','Rope skipping', 'Wrestling','Eastern Kazakh cone throwing', 'Rowing', 'Bouldering'],
-        correct: 5,
-        explanation: 'This guy is almost as agile as an ape'
-      },
-      {
-        text: 'What body part is Finn\'s favorite?',
-        answers: ['Arms','Legs', 'Feet', 'Nose', 'Thumbs'],
+        text: 'Was ist Rico\'s Lieblings-Getränk?',
+        image: '',
+        answers: ['Wasser', 'Flüssiges Uran', 'Mango-Lassie', 'Kirschsaft', 'Spezieege'],
         correct: 2,
-        explanation: 'Finn enjoys good feet (allegedly)'
+        explanation: 'Eigentlich habe ich ihn das erst einmal trinken sehen...'
       },
       {
-        text: 'What Animal resembles Finn the most?',
-        answers: ['Bear', 'Border Collie', 'Fish', 'Worm'],
-        correct: 1,
-        explanation: 'He does look like that!'
-      },
-      {
-        text: 'How many children does Finn have?',
-        answers: ['0', '1', '2', 'More than 10'],
-        correct: 0,
-        explanation: 'Finn will probably have a nice family in the future, but as of now, he is childless'
-      },
-      { text: 'Where does Finn live?',
-        answers: ['Duisburg', 'Schönwehrtstraße 56', 'South Sudan', 'Günderode-Straße 19c','Loch Ness','Görtzer-Straße 9'],
-        correct: 1,
-        explanation: 'I know where you live'
-      },
-      {
-        text: 'Which plant sounds similar to an important person in Finn\'s live?',
-        answers: [ 'Bread', 'Lavender', 'Orchid','Vanilla'],
-        correct: 3,
-        explanation: 'No explanation'
-      },
-      {
-        text: 'Why is Finn so cute?',
-        answers: ['He\'s not', 'Disposition', 'That is unknown', 'He learned it in elementary school', 'He imitates puppies'],
+        text: 'Hat Rico ein Springseil?',
+        image: 'Images/springseil.jpg',
+        answers: ['Öh Ja', 'NEiiin', 'seine Mutter hat eins', 'Er weiß nicht wo es ist'],
         correct: 2,
-        explanation: 'No one really knows where he got his inexplicable charm'
+        explanation: 'Ein Springseil ist auch was für Jungs'
       },
        {
-        text: 'Do you enjoy this quiz and also like Finn?',
-        answers: ['Maybe','Yes','Yes, but I don\'t want to admit it'],
-        correct: 1,
-        explanation: 'Correct!'
-      }
-    ],
-    de: [
-      {
-        text: 'Was lautet Finn\'s Nachname?',
-        answers: ['Gianjogologocomolo', 'Sperle', 'Binchiling', 'Frankfurt'],
-        correct: 0,
-        explanation: 'Finns Stammbaum zeigt eine Verbindung zu dem berühmten Erfinder Luigi Gianjogologocomolo'
-      },
-      {
-        text: 'Welcher ist der größte Muskel in Finn\'s Körper?',
-        answers: ['Unterarme', 'Bizeps', 'Gluteos Maximus', 'Bauchmuskeln'],
-        correct: 0,
-        explanation: 'Sie sind in der Tat größer als sein Bizeps, deshalb könnte man ihn mit Popeye verwechseln'
-      },
-       {
-        text: 'Was ist eine häufige Freizeitaktivität von Finn?',
-        answers: ['Filme schauen', 'Lesen', '*Nicht* Glücksspiel', 'Videospiele zocken'],
+        text: 'Was ist eine häufige Freizeitaktivität von Rico?',
+        image: 'Images/Kröte.jpeg',
+        answers: ['Keinen Kredikartenbetrug zu begehen', 'Lesen', '*Nicht* Glücksspiel', 'Videospiele zocken'],
         correct: 3,
-        explanation: 'Er findet immer Zeit für eine Runde Flugsimulator'
+        explanation: 'Er findet immer Zeit für eine Runde Mein Krampf, äh ich meine Minecraft'
       },
-      {
-        text: 'Was ist Finn\'s Lieblings-Getränk?',
-        answers: ['Wasser', 'Flüssiges Uran', 'Apfelsaft', 'Libella Cola', 'Almdudler'],
-        correct: 3,
-        explanation: 'Ich habe gehört es ist das GGOAT'
-      },
+     
        {
         text: 'Welches Transportations Mittel zieht Finn vor?',
+        image: '',
         answers: ['Gehen', 'Züge', 'Teleportieren'],
         correct: 1,
         explanation: 'Teleportieren wäre schneller...'
@@ -459,104 +335,84 @@
 
       {
         text: 'Mit welcher Game-Engine ist Finn vertraut?',
+        image: '',
         answers: ['Unreal Engine', 'Godot', 'Unity', 'Game maker'],
         correct: 1,
         explanation: 'Finn hat ein tiefgreifendes Wissen in Godot, da sein Vater ein contributor ist'
       },
       
       {
-        text: ' Welche Sportart betreibt Finn regelmäßig?',
-        answers: ['Hai-Jagd','Seilspringen', 'Ringen','Ostkasachisches Kegelwerfen', 'Rudern', 'Bouldern'],
+        text: ' Welche Sportart betreibt Rico regelmäßig?',
+        image: '',
+        answers: ['Büffel-Jagd','Fußball', 'Football','Seilspringen', 'American-Football', 'Soccer','Niederländisches Lederhosen-Weitspringen', 'Rugby',],
         correct: 5,
-        explanation: 'Dieser Typ ist fast so agil wie ein Affe'
+        explanation: 'Rico ist fast so hart wie ein Felsen, und so schnell wie ein Rotbraunmanguale'
       },
       {
-        text: 'Was ist Finn\'s Lieblings-Körperteil?',
+        text: 'Was ist Freaco\'s Lieblings-Körperteil?',
+        image: '',
         answers: ['Arme','Beine', 'Füße', 'Nase', 'Daumen'],
         correct: 2,
-        explanation: 'Finn genießt ein Paar guter Füße (angeblich)'
+        explanation: 'Rico genießt ein Paar guter Füße (angeblich)'
       },
       {
         text: 'Welches Tier ähnelt Finn am meisten?',
+        image: '',
         answers: ['Bär', 'Border Collie', 'Fisch', 'Wurm'],
         correct: 1,
         explanation: 'Er sieht wirklich so aus!'
       },
       {
         text: 'Wie viele Kinder hat Finn?',
+        image: '',
         answers: ['0', '1', '2', 'Mehr als 10'],
         correct: 0,
         explanation: 'Finn wird sicher irgendwann eine nette Familie haben, aber momentan ist er kinderlos'
       },
       { text: 'Wo wohnt Finn?',
+        image: '',
         answers: ['Duisburg', 'Schönwehrtstraße 56', 'Südsudan', 'Günderode-Straße 19c', 'Lochness','Görtzer-Straße 9'],
         correct: 1,
         explanation: 'Ich weiß wo du wohnst'
       },
       {
         text: 'Welche Pflanze hört sich ähnlich an wie ein wichtiger Mensch in Finn\'s Leben?',
+        image: '',
         answers: ['Brot',  'Lavendel', 'Orchidee','Vanille'],
         correct: 3,
         explanation: 'Keine Erklärung'
       },
       {
         text: 'Warum ist Finn so süß?',
+        image: '',
         answers: ['Ist er nicht', 'Veranlagung', 'Das ist unbekannt', 'In der Grundschule erlernt', 'Er imitiert Hundewelpen'],
         correct: 2,
         explanation: 'Niemand weiß wirklich woher er seinen unerklärlichen Charm hat'
       },
        {
         text: 'Gefällt dir dieses Quiz und magst du Finn?',
+        image: '',
         answers: ['Vieleicht','Ja','Ja, aber ich will es nicht zugeben'],
         correct: 1,
         explanation: 'Richtig!'
       }
-    ]
-  };
+    ];
 
   // ─────────────────────────────────────────────────────────────
   //  STATE
   // ─────────────────────────────────────────────────────────────
   const KEYS = ['A','B','C','D','E','F'];
-  let lang     = 'en';
   let current  = 0;
   let score    = 0;
   let answered = false;
   let inResult = false;
 
   // ─────────────────────────────────────────────────────────────
-  //  LANGUAGE DETECTION & SWITCH
-  // ─────────────────────────────────────────────────────────────
-  function detectLang() {
-    const pref = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
-    return pref.startsWith('de') ? 'de' : 'en';
-  }
-
-  function setLang(newLang) {
-    lang = newLang;
-    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-    document.getElementById('btn-de').classList.toggle('active', lang === 'de');
-    document.documentElement.lang = lang;
-
-    if (inResult) {
-      // re-render result screen in new language (keep score)
-      showResult(true);
-    } else {
-      // re-render current question in new language (keep answered state)
-      renderQuestion(current);
-    }
-    // update live score label
-    document.getElementById('score-live').textContent = i18n[lang].points(score);
-    document.getElementById('header').textContent  = i18n[lang].header;
-
-  }
-
-  // ─────────────────────────────────────────────────────────────
   //  RENDER
   // ─────────────────────────────────────────────────────────────
   function renderQuestion(index) {
-    const t   = i18n[lang];
-    const qs  = questions[lang];
+    const t   = i18n;
+    const qs  = questions;
     const q   = qs[index];
     const total = qs.length;
 
@@ -564,6 +420,16 @@
     document.getElementById('q-counter').textContent = t.questionLabel(index + 1);
     document.getElementById('q-text').textContent    = q.text;
     document.getElementById('progress-fill').style.width = ((index / total) * 100) + '%';
+
+    const imgEl = document.getElementById('q-image');
+    if (q.image) {
+      imgEl.src = q.image;
+      imgEl.alt = q.text;
+      imgEl.classList.add('show');
+    } else {
+      imgEl.src = '';
+      imgEl.classList.remove('show');
+    }
 
     const nb = document.getElementById('next-btn');
     nb.textContent = index < total - 1 ? t.next : t.showResult;
@@ -578,7 +444,7 @@
       container.appendChild(btn);
     });
 
-    // re-apply answered state if switching lang mid-question
+    // re-apply answered state if re-rendering
     if (answered) {
       const btns = container.querySelectorAll('.answer-btn');
       btns.forEach(b => b.disabled = true);
@@ -601,8 +467,8 @@
     document.getElementById('feedback').className = 'feedback';
     document.getElementById('feedback').textContent = '';
     document.getElementById('next-btn').className = 'next-btn';
-    document.getElementById('score-live').textContent = i18n[lang].points(score);
-    document.getElementById('header').textContent  = i18n[lang].header;
+    document.getElementById('score-live').textContent = i18n.points(score);
+    document.getElementById('header').textContent  = i18n.header;
 
 
     renderQuestion(index);
@@ -618,8 +484,8 @@
     answered   = true;
     lastChosen = chosen;
 
-    const q    = questions[lang][current];
-    const t    = i18n[lang];
+    const q    = questions[current];
+    const t    = i18n;
     const btns = document.querySelectorAll('.answer-btn');
     btns.forEach(b => b.disabled = true);
 
@@ -637,31 +503,29 @@
       fb.className   = 'feedback wrong show';
     }
 
-    document.getElementById('score-live').textContent = i18n[lang].points(score);
+    document.getElementById('score-live').textContent = i18n.points(score);
     document.getElementById('next-btn').classList.add('show');
   }
 
   document.getElementById('next-btn').addEventListener('click', () => {
     current++;
-    if (current < questions[lang].length) {
+    if (current < questions.length) {
       load(current);
     } else {
-      showResult(false);
+      showResult();
     }
   });
 
   // ─────────────────────────────────────────────────────────────
   //  RESULT
   // ─────────────────────────────────────────────────────────────
-  function showResult(langSwitch) {
+  function showResult() {
     inResult = true;
-    if (!langSwitch) {
-      document.getElementById('quiz-screen').style.display = 'none';
-      document.getElementById('progress-fill').style.width = '100%';
-    }
+    document.getElementById('quiz-screen').style.display = 'none';
+    document.getElementById('progress-fill').style.width = '100%';
 
-    const t     = i18n[lang];
-    const total = questions[lang].length;
+    const t     = i18n;
+    const total = questions.length;
     const pct   = Math.round((score / total) * 100);
 
     let icon, bucket;
@@ -694,10 +558,6 @@
   // ─────────────────────────────────────────────────────────────
   //  INIT
   // ─────────────────────────────────────────────────────────────
-  lang = detectLang();
-  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-  document.getElementById('btn-de').classList.toggle('active', lang === 'de');
-  document.documentElement.lang = lang;
   load(0);
 </script>
 </body>
