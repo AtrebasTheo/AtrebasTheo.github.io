@@ -208,7 +208,7 @@
       font-family: inherit; font-size: 30px; font-weight: 700;
       cursor: pointer; transition: background .15s;
     }
-    .start-btn:hover { background: rgba(230, 155, 56, 0.12); }
+    .start-btn:hover { background: rgba(237, 240, 49, 0.3); }
 
     @media (max-width: 480px) {
       .card { padding: 28px 20px; }
@@ -224,7 +224,16 @@
 </pre>
 </div>
 
-<div class ="start" id="start"> <button class="start-btn" id="start-btn" onclick="restart()"> Start </button></div>
+<div  id="start" > 
+  
+    <img  src="Images/rico.jpg" width= "400" height= "220">
+          <pre>  </pre>
+  <div display="center">
+    <button class="start-btn" id="start-btn"  onclick="restart()"> Start </button>
+  </div>
+
+
+</div>
 
 <div class="progress-wrap" id="progress">
   <div class="progress-meta">
@@ -284,7 +293,7 @@
     results: {
       perfect:  { title: 'Perfekt!',        quote: 'Du bist ein wahrer RicExperte  Vieleicht bist du ja sogar Rico persönlich!?? Aber leider warst du schon der 101ste Teilnehmer und bist nicht der große Gewinner. Würde mir stinken.' },
       great:    { title: 'Gut gemacht!',    quote: 'Starke Leistung! Mit mehr Rico Stalking dann noch besser. Aber leider warst du erst der 99ste Teilnehmer und bist nicht der große Gewinner. Würde mir stinken.' },
-      okay:     { title: 'Nicht schlecht!', quote: 'Du weißt einiges aber da ist noch Luft nach oben. Leider warst du erst der 69ste Teilnehmer und bist nicht der große Gewinner. Würde mir stinken.' },
+      okay:     { title: 'Nicht schlecht!', quote: 'Du weißt einiges aber da ist noch Luft nach oben. Leider warst du erst der 67ste Teilnehmer und bist nicht der große Gewinner. Würde mir stinken.' },
       poor:     { title: 'Weiter üben!',    quote: 'Du kannst das noch viel besser! Lungere mit Abhörgerät vor Rico\'s Fenster! Leider warst du erst der 11te Teilnehmer und bist nicht der große Gewinner. Würde mir stinken.' }
     }
   };
@@ -301,7 +310,7 @@
         image: 'Images/Buchfink.jpg',
         answers: [ 'Binchiling', 'Buchling','Buchfink','Sperlium', 'Sperle','Sperber'],
         correct: 4,
-        explanation: 'Rico ist gerne Vögel. Vieleicht hat er einen?'
+        explanation: 'Rico isst gerne Vögel. Vieleicht hat er einen?'
       },
         {
         text: 'Ist Rico mit Finn Giangacomo verwandt?',
@@ -313,14 +322,14 @@
        {
         text: 'Was ist Rico\'s Lieblings-Getränk?',
         image: '',
-        answers: ['Wasser', 'Flüssiges Uran', 'Mango-Lassie', 'Kirschsaft', 'Spezieege'],
-        correct: 2,
+        answers: ['Wasser', 'Flüssiges Uran', 'Kirschsaft', 'Speziege', 'Mango-Lassie'],
+        correct: 4,
         explanation: 'Eigentlich habe ich ihn das erst einmal trinken sehen...'
       },
        {
         text: 'Wer lebt mit Rico in seinem Haus?',
         image: 'Images/ImHaus.jpeg',
-        answers: ['Seine Schwester',  'Sein Onkel', 'Sein Vater','Deine Mutter'],
+        answers: ['Seine Schwester',  'Sein Onkel', 'Seine Freundin','Deine Mutter'],
         correct: 0,
         explanation: 'Keine Erklärung'
       },
@@ -348,7 +357,7 @@
       },
         { text: 'Wie mag Rico sein Essen?',
         image: 'Images/Essen.jpg',
-        answers: ['Bitter','mit Garnelen', 'Scharf', 'Süß', 'dick mit Käse belegt', 'Lochness'],
+        answers: ['Bitter','mit Garnelen', 'dick mit Käse belegt','Scharf', 'Süß', 'Lochness'],
         correct: 2,
         explanation: '20000 Chilischoten sind noch zu mild'
       },
@@ -363,7 +372,7 @@
       {
         text: ' Welche Sportart betreibt Rico regelmäßig?',
         image: 'Images/Football.jpg',
-        answers: ['Büffel-Jagd','Fußball', 'Football','Seilspringen', 'American-Football', 'Soccer','Niederländisches Lederhosen-Weitspringen', 'Rugby',],
+        answers: ['Büffel-Jagd','Fußball', 'Football','Seilspringen','Niederländisches Lederhosen-Weitspringen', 'Rugby', 'American-Football', 'Soccer'],
         correct: 4,
         explanation: 'Rico ist fast so hart wie ein Felsen, und so schnell wie ein Rotbraunmanguale'
       },
@@ -377,14 +386,14 @@
        {
         text: 'War Rico mal in Timbuktu?',
         image: 'Images/Timbuktu.jpeg',
-        answers: ['Nein', 'Nein, aber er will nach Kazakhstan', 'Ja', 'Nur Dienstags um 4', 'Nein, aber schon im Südsudan'],
+        answers: ['Nein', 'Nein, aber er will nach Kasachstan', 'Ja', 'Nur Dienstags um 4', 'Nein, aber schon im Südsudan'],
         correct: 1,
-        explanation: 'Jeder Man verspürt im Leben einmal den Drang nach Kazakhstan zu reisen'
+        explanation: 'Jeder Mann verspürt im Leben einmal den Drang nach Kasachstan zu reisen'
       },
       {
         text: 'Wann geht Rico ins Bett?',
         image: 'Images/Uhr.png',
-        answers: ['Vor 20Uhr', 'Um 21 Uhr', 'Um 23 Uhr', 'Nach 3 Uhr'],
+        answers: ['Vor 20 Uhr', 'Um 21 Uhr', 'Um 23 Uhr', 'Nach 3 Uhr'],
         correct: 3,
         explanation: 'Ok ich gebe zu, dass ist etwas übertrieben'
       },
@@ -399,7 +408,7 @@
         text: 'Rico ist ein radikaler...',
         image: 'Images/Japse.jpeg',
         answers: ['Gewaltbereiter Veganist','Regenbogen-Jihadist', 'Kommunistischer Kapitalist', 'Panafrikanischer Nationalist'],
-        correct: 2,
+        correct: 1,
         explanation: 'Ich höre schon die Stimmen, sie werden lauter,., a a ahh'
       },
     
@@ -413,7 +422,7 @@
        {
         text: 'Magst du Rico und willst einen extrem hohen Gewinn?',
         image: 'Images/WantU.png',
-        answers: ['Vieleicht','Ja, aber ich will nicht gierig wirken','Nein','Ja'],
+        answers: ['Vielleicht','Ja, aber ich will nicht gierig wirken','Nein','Ja'],
         correct: 3,
         explanation: 'Mal schauen der wie vielste du warst'
       }
@@ -551,8 +560,8 @@
 
     let icon, bucket;
     if (pct >= 91)     { icon = '🏆'; bucket = 'perfect'; }
-    else if (pct >= 67)  { icon = '🎉'; bucket = 'great';   }
-    else if (pct >= 34)  { icon = '🤔'; bucket = 'okay';    }
+    else if (pct >= 70)  { icon = '🎉'; bucket = 'great';   }
+    else if (pct >= 50)  { icon = '🤔'; bucket = 'okay';    }
     else                 { icon = '📚'; bucket = 'poor';     }
 
     document.getElementById('result-icon').textContent  = icon;
